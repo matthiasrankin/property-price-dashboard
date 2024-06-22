@@ -1,0 +1,7 @@
+beautifulsoup4
+matplotlib
+pandas
+Requests
+seaborn
+setuptools
+streamlit
