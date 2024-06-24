@@ -1,0 +1,66 @@
+import streamlit as st
+import pandas as pd
+import geopandas as gpd
+import folium
+import branca.colormap as cm
+import streamlit.components.v1 as components
+import plotly_express as px
+
+from property_price_dashboard import PROJECT_DIRECTORY
+from property_price_dashboard.plotting import plot_chloropleth
+
+
+region_shapefile_and_key_mapping = {
+    "District Electoral Area": {
+        "shapefile": PROJECT_DIRECTORY / "data/chloropleth_data/electoral_areas.csv",
+        "region_key": "FinalR_DEA"
+    },
+    "Electoral Ward": {
+        "shapefile": PROJECT_DIRECTORY / "data/chloropleth_data/electoral_wards.csv",
+        "region_key": "WARDNAME"
+    }
+}
+
+property_type_mapping = {
+    "All Residential": "median_sale_price_total",
+    "Detached": "median_sale_price_det",
+    "Semi-Detached": "median_sale_price_sdt",
+    "Terrace": "median_sale_price_ter",
+    "Apartment": "median_sale_price_apt"
+}
+
+st.title("NI Property Price By Region")
+
+st.markdown(
+    "The price of a property depends on a number of factors specific to the property itself, "
+    "and we should not rely solely on regional averages to obtain a fair valuation of a house. "
+    "Still, it is sometimes of interest to see how average prices change based on the surrounding area."
+)
+
+st.markdown(
+    "The graphs shown here aim to provide a comparison between average house prices in different areas of "
+    "Northern Ireland. This is done at both the District Electoral Area level, as well as that of Electoral Wards. "
+    "The pricing data is taken from 2022 averages by property type."
+)
+
+property_type = st.selectbox("Types of Property", list(property_type_mapping.keys()))
+region_type = st.selectbox("Region Choice", list(region_shapefile_and_key_mapping.keys()))
+
+shapefile_path = region_shapefile_and_key_mapping[region_type]["shapefile"]
+region_key = region_shapefile_and_key_mapping[region_type]["region_key"]
+price_key = property_type_mapping[property_type]
+
+gdf = gpd.read_file(shapefile_path)
+if region_type == "County":
+    gdf["CountyName"] = gdf["CountyName"].apply(lambda x: x.lower().capitalize())
+    properties = pd.read_csv("data/properties/cleaned_properties.csv", low_memory=False)
+    price_by_region = properties.groupby("region", as_index=False)["price"].mean()
+    gdf = gdf.merge(price_by_region, left_on="CountyName", right_on="region", how="inner")
+
+my_map = plot_chloropleth(
+    gdf, region_key=region_key, price_key=price_key, mapped_region_key=region_type, mapped_price_key=f"Median Sale Price ({property_type})"
+)
+
+with st.container():
+    components.html(my_map, width=1450, height=1450)
+
