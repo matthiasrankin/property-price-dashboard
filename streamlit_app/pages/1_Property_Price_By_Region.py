@@ -44,7 +44,7 @@ st.markdown(
 property_type = st.selectbox("Types of Property", list(property_type_mapping.keys()))
 region_type = st.selectbox("Region Choice", list(region_shapefile_and_key_mapping.keys()))
 
-with open(f"static/{property_type.replace(" ", "_").lower()}_chloropleths.json", "r", encoding="utf-8") as file_:
+with open(f"static/{property_type.replace(' ', '_').lower()}_chloropleths.json", "r", encoding="utf-8") as file_:
     chloropleths = json.load(file_)
 
 my_map = chloropleths[region_type]
