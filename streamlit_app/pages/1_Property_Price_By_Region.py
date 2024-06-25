@@ -1,8 +1,5 @@
 import streamlit as st
-import pandas as pd
 import geopandas as gpd
-import folium
-import branca.colormap as cm
 import streamlit.components.v1 as components
 import plotly_express as px
 
@@ -12,11 +9,11 @@ from property_price_dashboard.plotting import plot_chloropleth
 
 region_shapefile_and_key_mapping = {
     "District Electoral Area": {
-        "shapefile": PROJECT_DIRECTORY / "data/chloropleth_data/electoral_areas.csv",
+        "shapefile": PROJECT_DIRECTORY / "data" / "chloropleth_data" / "electoral_areas.csv",
         "region_key": "FinalR_DEA"
     },
     "Electoral Ward": {
-        "shapefile": PROJECT_DIRECTORY / "data/chloropleth_data/electoral_wards.csv",
+        "shapefile": PROJECT_DIRECTORY / "data" / "chloropleth_data" / "electoral_wards.csv",
         "region_key": "WARDNAME"
     }
 }
@@ -51,11 +48,6 @@ region_key = region_shapefile_and_key_mapping[region_type]["region_key"]
 price_key = property_type_mapping[property_type]
 
 gdf = gpd.read_file(shapefile_path)
-if region_type == "County":
-    gdf["CountyName"] = gdf["CountyName"].apply(lambda x: x.lower().capitalize())
-    properties = pd.read_csv("data/properties/cleaned_properties.csv", low_memory=False)
-    price_by_region = properties.groupby("region", as_index=False)["price"].mean()
-    gdf = gdf.merge(price_by_region, left_on="CountyName", right_on="region", how="inner")
 
 my_map = plot_chloropleth(
     gdf, region_key=region_key, price_key=price_key, mapped_region_key=region_type, mapped_price_key=f"Median Sale Price ({property_type})"
@@ -63,4 +55,3 @@ my_map = plot_chloropleth(
 
 with st.container():
     components.html(my_map, width=1450, height=1450)
-
