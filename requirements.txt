@@ -2,3 +2,4 @@ geopandas
 pandas
 plotly_express
 streamlit
+property_price_dashboard @ git+https://github.com/matthiasrankin/property-price-dashboard.git@master
