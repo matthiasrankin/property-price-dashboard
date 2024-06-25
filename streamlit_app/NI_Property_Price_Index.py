@@ -1,11 +1,7 @@
 import streamlit as st
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 st.set_page_config(layout="wide")
-
-from property_price_dashboard import PROJECT_DIRECTORY
 
 def _switch_quarter_and_year(quarter_year: str) -> str:
     quarter, year = quarter_year.split(" ")
@@ -14,9 +10,7 @@ def _switch_quarter_and_year(quarter_year: str) -> str:
 
 @st.cache_data
 def load_property_price_index():
-    property_price_index = pd.read_csv(
-        PROJECT_DIRECTORY / "data" / "ni-hpi-by-property-type-q1-2005---q1-2024.csv"
-    )
+    property_price_index = pd.read_csv("data/ni-hpi-by-property-type-q1-2005---q1-2024.csv")
     property_price_index.rename(
         {
             "NI_Detached_Property_Price_Index": "Detached",
@@ -136,7 +130,7 @@ government_district_mapping = {
 
 with tab1:
     electoral_area_annual = pd.ExcelFile(
-        PROJECT_DIRECTORY / "data" / "properties" / "District Electoral Area Annual Price Statistics Property Types_Frozen.xlsx"
+        "data/properties/District Electoral Area Annual Price Statistics Property Types_Frozen.xlsx"
     )
 
     property_type = st.selectbox("Type of Property", possible_properties)
@@ -163,7 +157,7 @@ with tab1:
 
 with tab2:
     electoral_area_annual = pd.ExcelFile(
-        PROJECT_DIRECTORY / "data" / "properties" / "Electoral Ward Annual Price Statistics Property Types_Frozen.xlsx"
+        "data/properties/Electoral Ward Annual Price Statistics Property Types_Frozen.xlsx"
     )
 
     property_type = st.selectbox("Type of Property ", possible_properties)
