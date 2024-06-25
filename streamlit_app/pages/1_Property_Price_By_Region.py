@@ -1,8 +1,6 @@
 import streamlit as st
-import geopandas as gpd
 import streamlit.components.v1 as components
-
-from property_price_dashboard.plotting import plot_chloropleth
+import json
 
 
 region_shapefile_and_key_mapping = {
@@ -38,18 +36,18 @@ st.markdown(
     "The pricing data is taken from 2022 averages by property type."
 )
 
+st.markdown(
+    "If fewer than 30 suitable property sales occurred within an area, no value is given. "
+    "This is why some regions are not represented when filtering to electoral wards, for example."
+)
+
 property_type = st.selectbox("Types of Property", list(property_type_mapping.keys()))
 region_type = st.selectbox("Region Choice", list(region_shapefile_and_key_mapping.keys()))
 
-shapefile_path = region_shapefile_and_key_mapping[region_type]["shapefile"]
-region_key = region_shapefile_and_key_mapping[region_type]["region_key"]
-price_key = property_type_mapping[property_type]
+with open(f"static/{property_type.replace(" ", "_").lower()}_chloropleths.json", "r", encoding="utf-8") as file_:
+    chloropleths = json.load(file_)
 
-gdf = gpd.read_file(shapefile_path)
-
-my_map = plot_chloropleth(
-    gdf, region_key=region_key, price_key=price_key, mapped_region_key=region_type, mapped_price_key=f"Median Sale Price ({property_type})"
-)
+my_map = chloropleths[region_type]
 
 with st.container():
     components.html(my_map, width=1450, height=1450)
