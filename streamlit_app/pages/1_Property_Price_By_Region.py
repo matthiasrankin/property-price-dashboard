@@ -1,19 +1,17 @@
 import streamlit as st
 import geopandas as gpd
 import streamlit.components.v1 as components
-import plotly_express as px
 
-from property_price_dashboard import PROJECT_DIRECTORY
 from property_price_dashboard.plotting import plot_chloropleth
 
 
 region_shapefile_and_key_mapping = {
     "District Electoral Area": {
-        "shapefile": PROJECT_DIRECTORY / "data" / "chloropleth_data" / "electoral_areas.csv",
+        "shapefile": "../data/chloropleth_data/electoral_areas.csv",
         "region_key": "FinalR_DEA"
     },
     "Electoral Ward": {
-        "shapefile": PROJECT_DIRECTORY / "data" / "chloropleth_data" / "electoral_wards.csv",
+        "shapefile": "../data/chloropleth_data/electoral_wards.csv",
         "region_key": "WARDNAME"
     }
 }
