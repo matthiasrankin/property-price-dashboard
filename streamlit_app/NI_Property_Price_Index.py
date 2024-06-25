@@ -130,7 +130,7 @@ government_district_mapping = {
 
 with tab1:
     electoral_area_annual = pd.ExcelFile(
-        "data/properties/district_electoral_area_annual_price_statistics_property_types.xlsx"
+        "data/properties/district_electoral_area_annual_price_statistics_property_types.XLSX"
     )
 
     property_type = st.selectbox("Type of Property", possible_properties)
@@ -157,7 +157,7 @@ with tab1:
 
 with tab2:
     electoral_area_annual = pd.ExcelFile(
-        "data/properties/electoral_ward_annual_price_statistics_property_types.xlsx"
+        "data/properties/electoral_ward_annual_price_statistics_property_types.XLSX"
     )
 
     property_type = st.selectbox("Type of Property ", possible_properties)
