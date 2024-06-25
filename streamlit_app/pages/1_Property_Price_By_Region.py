@@ -7,11 +7,11 @@ from property_price_dashboard.plotting import plot_chloropleth
 
 region_shapefile_and_key_mapping = {
     "District Electoral Area": {
-        "shapefile": "../data/chloropleth_data/electoral_areas.csv",
+        "shapefile": "data/chloropleth_data/electoral_areas.csv",
         "region_key": "FinalR_DEA"
     },
     "Electoral Ward": {
-        "shapefile": "../data/chloropleth_data/electoral_wards.csv",
+        "shapefile": "data/chloropleth_data/electoral_wards.csv",
         "region_key": "WARDNAME"
     }
 }

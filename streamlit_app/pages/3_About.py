@@ -1,5 +1,4 @@
 import streamlit as st
-from property_price_dashboard import PROJECT_DIRECTORY
 
 st.title("About")
 
