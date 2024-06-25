@@ -1,8 +1,8 @@
-matplotlib==3.9.0
-numpy==2.0.0
-pandas==2.2.2
-plotly_express==0.4.1
-seaborn==0.13.2
-streamlit==1.35.0
+matplotlib
+numpy
+pandas
+plotly_express
+seaborn
+streamlit
 openpyxl
 property_price_dashboard @ git+https://github.com/matthiasrankin/property-price-dashboard.git@master
