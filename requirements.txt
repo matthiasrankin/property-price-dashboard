@@ -1,5 +1,5 @@
-geopandas
-pandas
-plotly_express
-streamlit
+geopandas==0.14.4
+pandas==2.2.2
+plotly_express==0.4.1
+streamlit==1.35.0
 property_price_dashboard @ git+https://github.com/matthiasrankin/property-price-dashboard.git@master
